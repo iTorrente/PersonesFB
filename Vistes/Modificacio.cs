@@ -14,7 +14,7 @@ namespace PersonesFB.Vistes
 {
     public partial class Modificacio : Form
     {
-        private string nom;
+        private string nom = null;
         private PersonaObject personaObject;
         private PersonaArray personaArray;
         private DominiPersona DominiPersona { get; set; }
@@ -91,8 +91,12 @@ namespace PersonesFB.Vistes
                     personaObject.lenguajes[idx] = idioma;
                     idx++;
                 }
-
-                DominiPersona.AfegeixPersonaObject(tbNom.Text, this.personaObject);
+                if (nom != null)
+                {
+                    DominiPersona.EliminaPersonaObject(nom);
+                    DominiPersona.AfegeixPersonaObject(tbNom.Text, this.personaObject);
+                }
+                else DominiPersona.AfegeixPersonaObject(tbNom.Text, this.personaObject);
                 MessageBox.Show("La persona ha estat correctament afegida/modificada.");
                 this.Close();
             }
