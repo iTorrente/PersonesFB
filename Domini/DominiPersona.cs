@@ -13,6 +13,8 @@ namespace PersonesFB.Domini
     public class DominiPersona : IDominiPersona
     {
         public RepositoriPersona RepositoriPersona { get; set; }
+        public List<int>index = new List<int>();
+        public int keyIndex = -1;
 
         public DominiPersona()
         {
@@ -28,17 +30,45 @@ namespace PersonesFB.Domini
         {
             return RepositoriPersona.GetPersonesObject();
         }
-        public async void AfegeixPersonaObject(string nom,PersonaObject persona)
+        public async Task AfegeixPersonaObject(string nom,PersonaObject persona)
         {
             await RepositoriPersona.Firebase
               .Child("PersonasObject")
               .Child(nom)
               .PutAsync(persona);
         }
-        public async void EliminaPersonaObject(string nom)
+        public async Task AfegeixPersonaArray(PersonaArray persona)
+        {
+            if (keyIndex == -1) keyIndex = GetNextIndex();
+            await RepositoriPersona.Firebase
+              .Child("PersonasArray")
+              .Child(keyIndex.ToString())
+              .PutAsync(persona);
+        }
+        public int GetNextIndex()
+        {
+            bool indexTrobat = false;
+            int i = 0;
+            int idxFinal = 0;
+            index.Sort();
+            while (i < index.Count && !indexTrobat)
+            {
+                if (index[i] > i) { indexTrobat = true; idxFinal = i; }
+                i++;
+            }
+            if (!indexTrobat) idxFinal = index[index.Count - 1] + 1;
+
+            return idxFinal;
+        }
+        public async Task EliminaPersonaObject(string nom)
         {
             await RepositoriPersona.Firebase
               .Child("PersonasObject").Child(nom).DeleteAsync();
+        }
+        public async Task EliminaPersonaArray(int index)
+        {
+            await RepositoriPersona.Firebase
+              .Child("PersonasArray").Child(index.ToString()).DeleteAsync();
         }
     }
 }

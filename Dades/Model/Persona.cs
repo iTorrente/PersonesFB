@@ -21,18 +21,22 @@ namespace PersonesFB.Dades.Model
             public string nivel { get; set; }
         }
     }
+
     public class PersonaArray
     {
-        public string profesion { get; set; }
+        public bool disponibilidadParaViajar { get; set; }
         public int edad { get; set; }
         public string[] lenguajes { get; set; }
-        public bool disponibilidadParaViajar { get; set; }
-        public RangoProfesional rangoProfesional { get; set; }
-
-        public class RangoProfesional
-        {
-            public int aniosDeExperiencia { get; set; }
-            public string nivel { get; set; }
-        }
+        public string nombre { get; set; }
+        public string profesion { get; set; }
+        public Rangoprofesional rangoProfesional { get; set; }
     }
+
+    public class Rangoprofesional
+    {
+        public int aniosDeExperiencia { get; set; }
+        public string nivel { get; set; }
+    }
+
+
 }

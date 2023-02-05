@@ -28,7 +28,7 @@ namespace PersonesFB.Dades.Repositori
         public async Task<IReadOnlyCollection<FirebaseObject<PersonaArray>>> GetPersonesArray()
         {
             return await Firebase.Child("PersonasArray")
-                .OrderByKey()
+                .OrderByKey().StartAt("0")
                 .OnceAsync<PersonaArray>();
         }
     }
